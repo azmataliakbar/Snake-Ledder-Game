@@ -1,0 +1,1914 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Game Container */
+.game-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header Styles */
+.game-header {
+    text-align: center;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+}
+
+.game-title {
+    font-size: 3.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.title-word {
+    display: inline-block;
+    animation: bounce 2s infinite;
+    animation-delay: calc(var(--i) * 0.2s);
+}
+
+.title-word:nth-child(1) { --i: 0; }
+.title-word:nth-child(2) { --i: 1; }
+.title-word:nth-child(3) { --i: 2; }
+.title-word:nth-child(4) { --i: 3; }
+.title-word:nth-child(5) { --i: 4; }
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+    }
+    40% {
+        transform: translateY(-20px);
+    }
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Floating Dice Animation */
+.header-effects {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.floating-dice {
+    position: absolute;
+    font-size: 2rem;
+    animation: float 4s ease-in-out infinite;
+    opacity: 0.7;
+}
+
+.floating-dice:nth-child(1) {
+    top: 20%;
+    left: 10%;
+    animation-delay: 0s;
+}
+
+.floating-dice:nth-child(2) {
+    top: 60%;
+    right: 15%;
+    animation-delay: 1.5s;
+}
+
+.floating-dice:nth-child(3) {
+    top: 40%;
+    left: 80%;
+    animation-delay: 3s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+    }
+}
+
+/* Player Selection */
+.player-selection {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 40px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    margin-bottom: 30px;
+}
+
+.player-selection h2 {
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2rem;
+}
+
+.player-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.player-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.player-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    background: linear-gradient(45deg, #ee5a24, #ff6b6b);
+}
+
+.player-btn:active {
+    transform: translateY(0);
+}
+
+/* Game Board Container */
+.game-board-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+/* Game Info */
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.current-player h3 {
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.dice-container {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.dice {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(45deg, #ffd700, #ffed4e);
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.dice.rolling {
+    animation: diceRoll 1s ease-in-out;
+}
+
+@keyframes diceRoll {
+    0% { transform: rotate(0deg) scale(1); }
+    25% { transform: rotate(90deg) scale(1.1); }
+    50% { transform: rotate(180deg) scale(1.2); }
+    75% { transform: rotate(270deg) scale(1.1); }
+    100% { transform: rotate(360deg) scale(1); }
+}
+
+.roll-btn {
+    background: linear-gradient(45deg, #4ecdc4, #44a08d);
+    color: white;
+    border: none;
+    padding: 15px 25px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.roll-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+.roll-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.game-stats {
+    display: flex;
+    gap: 30px;
+}
+
+.score-display, .position-display {
+    text-align: center;
+}
+
+.score-display h4, .position-display h4 {
+    color: #333;
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.score-display span, .position-display span {
+    color: #ff6b6b;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+/* Game Board */
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 2px;
+    background: #333;
+    padding: 10px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* --- Default cell styling --- */
+.cell {
+    aspect-ratio: 1;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #333;
+    position: relative;
+    transition: all 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 0;
+    min-height: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+/* number wrapper inside cell for reliable clipping/ellipsis */
+.cell-number,
+.cell > .number,
+.cell > span {
+    display: inline-block;
+    width: 100%;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    user-select: none;
+    font-weight: bold;
+    line-height: 1;
+}
+
+/* hover effect (disabled on small/touch via media queries below) */
+.cell:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.cell.snake {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: white;
+}
+
+.cell.ladder {
+    background: linear-gradient(135deg, #4ecdc4, #44a08d);
+    color: white;
+}
+
+.cell.winner {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    color: #333;
+    animation: winnerGlow 2s infinite;
+}
+
+@keyframes winnerGlow {
+    0%, 100% { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+    50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.8); }
+}
+
+.player-token {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    transition: all 0.5s ease;
+    /* default inset so numbers remain visible */
+    left: 6%;
+    bottom: 6%;
+}
+
+.player-token.player-1 { background: #ff0000; }
+.player-token.player-2 { background: #00ff00; }
+.player-token.player-3 { background: #0000ff; }
+.player-token.player-4 { background: #ffff00; }
+
+/* Game Legend */
+.game-legend {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    margin: 20px 0;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.legend-icon {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 0.8rem;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+.ladder-legend {
+    background: #4ecdc4;
+}
+
+.snake-legend {
+    background: #ff6b6b;
+}
+
+.legend-text {
+    color: #333;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+/* Players Info */
+.players-info {
+    margin-bottom: 30px;
+}
+
+.player-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.player-card {
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
+    padding: 20px;
+    text-align: center;
+    min-width: 150px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.player-card.active {
+    transform: scale(1.05);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+}
+
+.player-card h4 {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.player-card .player-color {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin: 0 auto 10px;
+    border: 2px solid white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.player-card .player-score {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #ff6b6b;
+}
+
+.player-card .player-position {
+    font-size: 1rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Game Controls */
+.game-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.new-game-btn, .reset-btn {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.new-game-btn:hover, .reset-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Modal */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    animation: modalSlideIn 0.5s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-content h2 {
+    color: #333;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+}
+
+.modal-content p {
+    color: #666;
+    margin-bottom: 30px;
+    font-size: 1.5rem;
+}
+
+.modal-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+.modal-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+
+/* Extra Large Screens (1200px and up) */
+@media (min-width: 1200px) {
+    .game-container {
+        max-width: 1400px;
+        padding: 30px;
+    }
+    
+    .game-title {
+        font-size: 4rem;
+    }
+    
+    .board {
+        max-width: 700px;
+    }
+    
+    .cell {
+        font-size: 1.1rem;
+    }
+    
+    .snake-indicator::after {
+        font-size: 0.9rem;
+        width: 22px;
+        height: 22px;
+    }
+    
+    .ladder-indicator::after {
+        font-size: 0.9rem;
+        width: 22px;
+        height: 22px;
+    }
+}
+
+/* Large Screens (992px to 1199px) */
+@media (min-width: 992px) and (max-width: 1199px) {
+    .game-container {
+        max-width: 1000px;
+        padding: 25px;
+    }
+    
+    .game-title {
+        font-size: 3.5rem;
+    }
+    
+    .board {
+        max-width: 600px;
+    }
+    
+    .snake-indicator::after {
+        font-size: 0.8rem;
+        width: 20px;
+        height: 20px;
+    }
+    
+    .ladder-indicator::after {
+        font-size: 0.8rem;
+        width: 20px;
+        height: 20px;
+    }
+}
+
+/* Medium Screens (768px to 991px) - Tablets */
+@media (min-width: 768px) and (max-width: 991px) {
+    .game-container {
+        padding: 20px;
+    }
+    
+    .game-title {
+        font-size: 3rem;
+        gap: 10px;
+    }
+    
+    .player-selection {
+        padding: 30px;
+    }
+    
+    .player-selection h2 {
+        font-size: 1.8rem;
+    }
+    
+    .player-btn {
+        padding: 12px 25px;
+        font-size: 1.1rem;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+    
+    .dice-container {
+        flex-direction: row;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    .game-stats {
+        flex-direction: row;
+        justify-content: center;
+        gap: 30px;
+    }
+    
+    .board {
+        max-width: 100%;
+        padding: 8px;
+    }
+    
+    .cell {
+        font-size: 0.9rem;
+    }
+    
+    .player-cards {
+        flex-direction: row;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .player-card {
+        min-width: 140px;
+        padding: 15px;
+    }
+    
+    .game-controls {
+        gap: 15px;
+    }
+    
+    .new-game-btn, .reset-btn {
+        padding: 12px 25px;
+        font-size: 1rem;
+    }
+}
+
+/* Small Screens (576px to 767px) - Large Phones */
+@media (min-width: 576px) and (max-width: 767px) {
+    .game-container {
+        padding: 15px;
+    }
+    
+    .game-title {
+        font-size: 2.5rem;
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .player-selection {
+        padding: 25px;
+    }
+    
+    .player-selection h2 {
+        font-size: 1.6rem;
+        margin-bottom: 25px;
+    }
+    
+    .player-buttons {
+        gap: 15px;
+    }
+    
+    .player-btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+    
+    .game-board-container {
+        padding: 20px;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .current-player h3 {
+        font-size: 1.3rem;
+    }
+    
+    .dice-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .dice {
+        width: 70px;
+        height: 70px;
+        font-size: 2rem;
+    }
+    
+    .roll-btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+    
+    .game-stats {
+        flex-direction: row;
+        justify-content: center;
+        gap: 20px;
+    }
+    
+    .score-display h4, .position-display h4 {
+        font-size: 1.1rem;
+    }
+    
+    .score-display span, .position-display span {
+        font-size: 1.3rem;
+    }
+    
+    .board {
+        max-width: 100%;
+        padding: 6px;
+        gap: 1px;
+    }
+    
+    .cell {
+        font-size: 0.8rem;
+        border-radius: 6px;
+    }
+    
+    .player-token {
+        width: 18px;
+        height: 18px;
+    }
+    
+    .player-cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+    }
+    
+    .player-card {
+        min-width: 180px;
+        padding: 15px;
+    }
+    
+    .player-card h4 {
+        font-size: 1.1rem;
+    }
+    
+    .player-card .player-score {
+        font-size: 1.1rem;
+    }
+    
+    .game-controls {
+        gap: 15px;
+    }
+    
+    .new-game-btn, .reset-btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+    
+    .modal-content {
+        padding: 30px;
+        margin: 20px;
+    }
+    
+    .modal-content h2 {
+        font-size: 2rem;
+    }
+    
+    .modal-content p {
+        font-size: 1.3rem;
+    }
+    
+    .modal-btn {
+        padding: 12px 25px;
+        font-size: 1.1rem;
+    }
+}
+
+/* Extremely Small Screens (up to 280px) - Ultra Small Phones */
+@media (max-width: 280px) {
+    .game-container {
+        padding: 3px;
+    }
+    
+    .game-title {
+        font-size: 1.3rem;
+        flex-direction: column;
+        gap: 2px;
+        margin-bottom: 10px;
+    }
+    
+    .floating-dice {
+        font-size: 1rem;
+    }
+    
+    .player-selection {
+        padding: 10px;
+    }
+    
+    .player-selection h2 {
+        font-size: 1.1rem;
+        margin-bottom: 10px;
+    }
+    
+    .player-buttons {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .player-btn {
+        padding: 10px 12px;
+        font-size: 0.8rem;
+        width: 100%;
+        max-width: 120px;
+        margin: 0 auto;
+    }
+    
+    .game-board-container {
+        padding: 5px;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 8px;
+    }
+    
+    .current-player h3 {
+        font-size: 0.9rem;
+    }
+    
+    .dice-container {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .dice {
+        width: 45px;
+        height: 45px;
+        font-size: 1.3rem;
+    }
+    
+    .roll-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        width: 100%;
+        max-width: 120px;
+    }
+    
+    .game-stats {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .score-display, .position-display {
+        text-align: center;
+    }
+    
+    .score-display h4, .position-display h4 {
+        font-size: 0.8rem;
+    }
+    
+    .score-display span, .position-display span {
+        font-size: 1rem;
+    }
+    
+    .board {
+        max-width: 100%;
+        padding: 0.3px;
+        gap: 0.1px;
+        margin: 0 auto;
+    }
+    
+    .cell {
+        font-size: 0.3rem;
+        border-radius: 1px;
+        min-height: 12px;
+        min-width: 12px;
+        padding: 0.3px;
+        box-sizing: border-box;
+        line-height: 1;
+    }
+    
+    .player-token {
+        width: 8px;
+        height: 8px;
+        border-width: 1px;
+    }
+    
+    .player-cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+    }
+    
+    .player-card {
+        min-width: 120px;
+        padding: 8px;
+    }
+    
+    .player-card h4 {
+        font-size: 0.8rem;
+    }
+    
+    .player-card .player-score {
+        font-size: 0.8rem;
+    }
+    
+    .player-card .player-position {
+        font-size: 0.7rem;
+    }
+    
+    .game-controls {
+        flex-direction: column;
+        gap: 6px;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .new-game-btn, .reset-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        width: 100%;
+        max-width: 120px;
+        margin: 0 auto;
+    }
+    
+    .modal-content {
+        padding: 15px;
+        margin: 8px;
+    }
+    
+    .modal-content h2 {
+        font-size: 1.3rem;
+    }
+    
+    .modal-content p {
+        font-size: 1rem;
+    }
+    
+    .modal-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+        width: 100%;
+        max-width: 120px;
+    }
+}
+
+/* Ultra Small Screens (281px to 320px) - Very Small Phones */
+@media (min-width: 281px) and (max-width: 320px) {
+    .game-container {
+        padding: 5px;
+    }
+    
+    .game-title {
+        font-size: 1.5rem;
+        flex-direction: column;
+        gap: 3px;
+        margin-bottom: 15px;
+    }
+    
+    .floating-dice {
+        font-size: 1.2rem;
+    }
+    
+    .player-selection {
+        padding: 15px;
+    }
+    
+    .player-selection h2 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+    
+    .player-buttons {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .player-btn {
+        padding: 12px 15px;
+        font-size: 0.9rem;
+        width: 100%;
+        max-width: 150px;
+        margin: 0 auto;
+    }
+    
+    .game-board-container {
+        padding: 8px;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    
+    .current-player h3 {
+        font-size: 1rem;
+    }
+    
+    .dice-container {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .dice {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .roll-btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 150px;
+    }
+    
+    .game-stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .score-display, .position-display {
+        text-align: center;
+    }
+    
+    .score-display h4, .position-display h4 {
+        font-size: 0.9rem;
+    }
+    
+    .score-display span, .position-display span {
+        font-size: 1.1rem;
+    }
+    
+    .board {
+        max-width: 100%;
+        padding: 0.5px;
+        gap: 0.1px;
+        margin: 0 auto;
+    }
+    
+    .cell {
+        font-size: 0.4rem;
+        border-radius: 1px;
+        min-height: 14px;
+        min-width: 14px;
+        padding: 0.5px;
+        box-sizing: border-box;
+        line-height: 1;
+    }
+    
+    .player-token {
+        width: 20px;
+        height: 20px;
+        border-width: 1px;
+    }
+    
+    .player-cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .player-card {
+        min-width: 140px;
+        padding: 10px;
+    }
+    
+    .player-card h4 {
+        font-size: 0.9rem;
+    }
+    
+    .player-card .player-score {
+        font-size: 0.9rem;
+    }
+    
+    .player-card .player-position {
+        font-size: 0.8rem;
+    }
+    
+    .game-controls {
+        flex-direction: column;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .new-game-btn, .reset-btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 150px;
+        margin: 0 auto;
+    }
+    
+    .modal-content {
+        padding: 20px;
+        margin: 10px;
+    }
+    
+    .modal-content h2 {
+        font-size: 1.5rem;
+    }
+    
+    .modal-content p {
+        font-size: 1.1rem;
+    }
+    
+    .modal-btn {
+        padding: 12px 20px;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 150px;
+    }
+}
+
+/* --- Revised: Small Screens (270px to 499px) - Fix board overlap and number hiding --- */
+/* This block replaces/overrides the earlier simple small-screen rules.
+   It enforces deterministic cell sizing, protects the number text, reduces indicators/tokens,
+   and disables hover scaling which was causing overlap. */
+
+@media (min-width: 270px) and (max-width: 499px) {
+    /* CSS variables tuned for this range */
+    :root {
+        --board-gap-sm: 1px;
+        --board-padding-sm: 3px;
+        --cells-per-row-sm: 5;
+        --cell-min-sm: 32px;   /* readable minimum */
+        --cell-max-sm: 64px;   /* reasonable max */
+    }
+
+    /* compute a deterministic cell size so rows match columns */
+    :root {
+        --cell-size-sm: clamp(
+            var(--cell-min-sm),
+            calc((100vw - (var(--board-padding-sm) * 2) - (var(--cells-per-row-sm) * var(--board-gap-sm))) / var(--cells-per-row-sm)),
+            var(--cell-max-sm)
+        );
+        
+    }
+
+    .board {
+        display: grid !important;
+        grid-template-columns: repeat(var(--cells-per-row-sm), 1fr) !important;
+        gap: var(--board-gap-sm) !important;
+        padding: var(--board-padding-sm) !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        grid-auto-rows: var(--cell-size-sm) !important; /* enforces square-ish cells */
+        box-sizing: border-box !important;
+        margin: 0 auto !important;
+        overflow: hidden !important;
+    }
+
+    .cell {
+        /* override aspect-ratio to avoid conflicts and force grid sizing */
+        aspect-ratio: auto !important;
+        width: 100% !important;
+        height: 100% !important;
+        min-width: var(--cell-min-sm) !important;
+        min-height: var(--cell-min-sm) !important;
+        padding: 2px !important;
+        border-radius: 4px !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        line-height: 1 !important;
+        font-size: clamp(0.55rem, 2.2vw, 0.82rem) !important;
+        transform: none !important; /* prevent accidental scale */
+        transition: none !important;
+    }
+
+    /* Ensure number text doesn't get clipped or hidden */
+    .cell-number,
+    .cell > .number,
+    .cell > span {
+        display: inline-block !important;
+        width: 100% !important;
+        text-align: center !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        pointer-events: none !important;
+        user-select: none !important;
+        font-weight: bold !important;
+        line-height: 1 !important;
+    }
+
+    /* Reduce indicator size to avoid collision with numbers */
+    .snake-indicator::after,
+    .ladder-indicator::after {
+        width: 14px !important;
+        height: 14px !important;
+        font-size: 0.55rem !important;
+        top: 2px !important;
+        right: 2px !important;
+        line-height: 1 !important;
+    }
+
+    /* Make player tokens smaller and keep inset so they don't overlap number */
+    .player-token {
+        width: 14% !important;
+        height: 14% !important;
+        left: 5% !important;
+        bottom: 5% !important;
+        border-width: 1px !important;
+    }
+
+    /* Disable hover scaling to prevent adjacent-cell overlap */
+    .cell:hover {
+        transform: none !important;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.12) !important;
+    }
+
+    /* If any inline or other aspect-ratio rules exist, neutralize them here */
+    .cell[style*="aspect-ratio"],
+    .cell[style*="aspectratio"] {
+        aspect-ratio: auto !important;
+    }
+
+    /* Prevent child overflow from pushing outside cell */
+    .cell .player-token,
+    .cell .snake-indicator,
+    .cell .ladder-indicator {
+        max-width: 40% !important;
+        max-height: 40% !important;
+        overflow: visible !important;
+    }
+
+    /* Slightly adjust board padding / gap for narrow subrange */
+    @media (min-width: 270px) and (max-width: 360px) {
+        :root {
+            --cell-min-sm: 36px;
+            --cell-max-sm: 60px;
+        }
+        .cell { font-size: clamp(0.6rem, 3vw, 0.82rem) !important; padding: 2px !important; }
+        .player-token { width: 12% !important; height: 12% !important; left: 6% !important; bottom: 6% !important; }
+        .snake-indicator::after, .ladder-indicator::after { width: 12px !important; height: 12px !important; font-size: 0.5rem !important; }
+    }
+}
+
+/* Button Centering Fix (270px to 574px) */
+@media (min-width: 270px) and (max-width: 574px) {
+    .game-controls {
+        flex-direction: column;
+        gap: 10px;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .new-game-btn, .reset-btn {
+        margin: 0 auto;
+    }
+}
+
+/* Extra Small Screens (321px to 575px) - Small Phones */
+@media (min-width: 321px) and (max-width: 575px) {
+    .game-container {
+        padding: 10px;
+    }
+    
+    .game-title {
+        font-size: 2rem;
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    .floating-dice {
+        font-size: 1.5rem;
+    }
+    
+    .player-selection {
+        padding: 20px;
+    }
+    
+    .player-selection h2 {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+    }
+    
+    .player-buttons {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .player-btn {
+        padding: 15px 20px;
+        font-size: 1rem;
+        width: 100%;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+    
+    .game-board-container {
+        padding: 15px;
+    }
+    
+    .game-info {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+    
+    .current-player h3 {
+        font-size: 1.2rem;
+    }
+    
+    .dice-container {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .dice {
+        width: 60px;
+        height: 60px;
+        font-size: 1.8rem;
+    }
+    
+    .roll-btn {
+        padding: 15px 25px;
+        font-size: 1.1rem;
+        width: 100%;
+        max-width: 200px;
+    }
+    
+    .game-stats {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .score-display, .position-display {
+        text-align: center;
+    }
+    
+    .score-display h4, .position-display h4 {
+        font-size: 1rem;
+    }
+    
+    .score-display span, .position-display span {
+        font-size: 1.2rem;
+    }
+    
+    .board {
+        max-width: 100%;
+        padding: 1px;
+        gap: 0.2px;
+        margin: 0 auto;
+    }
+    
+    .cell {
+        font-size: 0.5rem;
+        border-radius: 2px;
+        min-height: 16px;
+        min-width: 16px;
+        padding: 0.5px;
+        box-sizing: border-box;
+        line-height: 1;
+    }
+    
+    .player-token {
+        width: 20px;
+        height: 20px;
+
+    }
+    
+    .player-cards {
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+    }
+    
+    .player-card {
+        min-width: 160px;
+        padding: 12px;
+    }
+    
+    .player-card h4 {
+        font-size: 1rem;
+    }
+    
+    .player-card .player-score {
+        font-size: 1rem;
+    }
+    
+    .player-card .player-position {
+        font-size: 0.9rem;
+    }
+    
+    .game-controls {
+        flex-direction: column;
+        gap: 12px;
+        justify-content: center;
+        align-items: center;
+    }
+    
+    .new-game-btn, .reset-btn {
+        padding: 15px 25px;
+        font-size: 1.1rem;
+        width: 100%;
+        max-width: 200px;
+        margin: 0 auto;
+    }
+    
+    .modal-content {
+        padding: 25px;
+        margin: 15px;
+    }
+    
+    .modal-content h2 {
+        font-size: 1.8rem;
+    }
+    
+    .modal-content p {
+        font-size: 1.2rem;
+    }
+    
+    .modal-btn {
+        padding: 15px 25px;
+        font-size: 1.1rem;
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+/* Landscape Orientation for Mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+    .game-container {
+        padding: 10px;
+    }
+    
+    .game-title {
+        font-size: 1.8rem;
+        margin-bottom: 10px;
+    }
+    
+    .player-selection {
+        padding: 15px;
+    }
+    
+    .player-selection h2 {
+        font-size: 1.3rem;
+        margin-bottom: 15px;
+    }
+    
+    .player-buttons {
+        flex-direction: row;
+        gap: 10px;
+    }
+    
+    .player-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .game-board-container {
+        padding: 10px;
+    }
+    
+    .game-info {
+        flex-direction: row;
+        gap: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .current-player h3 {
+        font-size: 1rem;
+    }
+    
+    .dice-container {
+        flex-direction: row;
+        gap: 10px;
+    }
+    
+    .dice {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+    
+    .roll-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+    
+    .game-stats {
+        flex-direction: row;
+        gap: 15px;
+    }
+    
+    .board {
+        max-width: 400px;
+        padding: 3px;
+    }
+    
+    .cell {
+        font-size: 0.6rem;
+    }
+    
+    .player-token {
+        width: 14px;
+        height: 14px;
+    }
+    
+    .player-cards {
+        flex-direction: row;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+    
+    .player-card {
+        min-width: 100px;
+        padding: 8px;
+    }
+    
+    .player-card h4 {
+        font-size: 0.9rem;
+    }
+    
+    .player-card .player-score {
+        font-size: 0.9rem;
+    }
+    
+    .player-card .player-position {
+        font-size: 0.8rem;
+    }
+    
+    .game-controls {
+        flex-direction: row;
+        gap: 10px;
+    }
+    
+    .new-game-btn, .reset-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+    }
+}
+
+/* High DPI Displays */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    .cell {
+        border: 0.5px solid rgba(0, 0, 0, 0.1);
+    }
+    
+    .player-token {
+        border-width: 1px;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) and (pointer: coarse) {
+    .player-btn, .roll-btn, .new-game-btn, .reset-btn, .modal-btn {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .cell {
+        min-height: 44px;
+    }
+    
+    .dice {
+        min-width: 60px;
+        min-height: 60px;
+    }
+}
+
+/* Animation for player movement */
+@keyframes movePlayer {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.player-token.moving {
+    animation: movePlayer 0.5s ease;
+}
+
+/* Snake and Ladder indicators */
+.snake-indicator::after {
+    content: "S";
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: white;
+    background: #ff6b6b;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    pointer-events: none;
+    line-height: 1;
+    font-family: Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.ladder-indicator::after {
+    content: "L";
+    position: absolute;
+    top: 2px;
+    right: 2px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: white;
+    background: #4ecdc4;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+    pointer-events: none;
+    line-height: 1;
+    font-family: Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+/* Responsive indicators for smaller screens */
+@media (max-width: 500px) {
+    .snake-indicator::after {
+        font-size: 0.6rem;
+        width: 16px;
+        height: 16px;
+        top: 1px;
+        right: 1px;
+    }
+    
+    .ladder-indicator::after {
+        font-size: 0.6rem;
+        width: 16px;
+        height: 16px;
+        top: 1px;
+        right: 1px;
+    }
+    
+    .game-legend {
+        gap: 20px;
+        margin: 15px 0;
+        padding: 12px;
+    }
+    
+    .legend-icon {
+        width: 20px;
+        height: 20px;
+        font-size: 0.7rem;
+    }
+    
+    .legend-text {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .snake-indicator::after {
+        font-size: 0.5rem;
+        width: 14px;
+        height: 14px;
+        top: 1px;
+        right: 1px;
+    }
+    
+    .ladder-indicator::after {
+        font-size: 0.5rem;
+        width: 14px;
+        height: 14px;
+        top: 1px;
+        right: 1px;
+    }
+    
+    .game-legend {
+        gap: 15px;
+        margin: 12px 0;
+        padding: 10px;
+    }
+    
+    .legend-icon {
+        width: 18px;
+        height: 18px;
+        font-size: 0.6rem;
+    }
+    
+    .legend-text {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 320px) {
+    .snake-indicator::after {
+        font-size: 0.4rem;
+        width: 12px;
+        height: 12px;
+        top: 1px;
+        right: 1px;
+    }
+    
+    .ladder-indicator::after {
+        font-size: 0.4rem;
+        width: 12px;
+        height: 12px;
+        top: 1px;
+        right: 1px;
+    }
+    
+    .game-legend {
+        gap: 12px;
+        margin: 10px 0;
+        padding: 8px;
+    }
+    
+    .legend-icon {
+        width: 16px;
+        height: 16px;
+        font-size: 0.5rem;
+    }
+    
+    .legend-text {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 280px) {
+    .snake-indicator::after {
+        font-size: 0.3rem;
+        width: 10px;
+        height: 10px;
+        top: 1px;
+        right: 1px;
+    }
+    
+    .ladder-indicator::after {
+        font-size: 0.3rem;
+        width: 10px;
+        height: 10px;
+        top: 1px;
+        right: 1px;
+    }
+    
+    .game-legend {
+        gap: 10px;
+        margin: 8px 0;
+        padding: 6px;
+    }
+    
+    .legend-icon {
+        width: 14px;
+        height: 14px;
+        font-size: 0.4rem;
+    }
+    
+    .legend-text {
+        font-size: 0.6rem;
+    }
+}
+
+/* Option to hide indicators on extremely small screens if needed */
+@media (max-width: 250px) {
+    .snake-indicator::after,
+    .ladder-indicator::after {
+        display: none;
+    }
+    
+    /* Alternative: Use colored borders instead */
+    .cell.snake {
+        border: 2px solid #ff6b6b;
+    }
+    
+    .cell.ladder {
+        border: 2px solid #4ecdc4;
+    }
+}
+
+/*  */
+
+/* ===== Increase numbers + make moving token more visible (270px - 499px) ===== */
+@media (min-width: 270px) and (max-width: 499px) {
+    /* make cell numbers larger but still clamp for narrow viewports */
+    .cell-number,
+    .cell > .number,
+    .cell > span {
+      font-size: clamp(0.78rem, 4.4vw, 1.12rem) !important;
+      font-weight: 800 !important;
+      line-height: 1 !important;
+      white-space: nowrap !important;
+      overflow: hidden !important;
+      text-overflow: ellipsis !important;
+    }
+  
+    /* ensure cells give room for the larger numbers */
+    .cell {
+      padding: 3px !important;
+      font-size: inherit !important; /* number controlled above */
+      box-sizing: border-box !important;
+    }
+  
+    /* enlarge tokens so they remain visible vs numbers */
+    .player-token {
+      width: 35% !important;
+      height: 35% !important;
+      left: 5% !important;
+      bottom: 5% !important;
+      border-width: 1.2px !important;
+      transition: transform 0.18s ease !important;
+    }
+  
+    /* make the moving token pop more on small screens */
+    .player-token.moving {
+      animation: movePlayerSmallScreen 0.48s ease-in-out !important;
+      z-index: 30 !important; /* stay on top while moving */
+      transform-origin: center center !important;
+    }
+  
+    /* stronger but brief pop for visibility */
+    @keyframes movePlayerSmallScreen {
+      0%   { transform: translateY(0) scale(1); }
+      40%  { transform: translateY(-6%) scale(1.36); }
+      70%  { transform: translateY(-2%) scale(1.12); }
+      100% { transform: translateY(0) scale(1); }
+    }
+  
+    /* reduce indicator size to avoid number overlap */
+    .snake-indicator::after,
+    .ladder-indicator::after {
+      width: 12px !important;
+      height: 12px !important;
+      font-size: 0.5rem !important;
+      top: 2px !important;
+      right: 2px !important;
+    }
+  
+    /* disable hover scaling that can push cells around */
+    .cell:hover { transform: none !important; box-shadow: 0 2px 6px rgba(0,0,0,0.12) !important; }
+  }
+  
